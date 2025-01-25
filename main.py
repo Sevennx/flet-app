@@ -1,77 +1,22 @@
-from flet import *
+import flet as ft
+from pages.main_page import main_page
+from pages.page1 import page1
+from pages.chat import chat_page
 
-def main(page: Page):
-    BG = '#041955'
-    FWG = '#97b4ff'
-    FG = '#3450a1'
-    PINK = '#eb0cff'
-    
-    # Mensagem "Bem-vindo" centralizada
-    welcome_message = Text(
-        "Bem-vindo",
-        size=40,
-        weight=FontWeight.BOLD,
-        color=FWG,
-        text_align=TextAlign.CENTER
-    )
-    
-    # Primeira página com a mensagem "Bem-vindo"
-    first_page_Contents = Container(
-        content=Column(
-            alignment=MainAxisAlignment.CENTER,
-            horizontal_alignment=CrossAxisAlignment.CENTER,
-            controls=[
-                Row(
-                    alignment=MainAxisAlignment.CENTER,
-                    controls=[
-                        welcome_message
-                    ]
-                )
-            ]
-        )
-    )
-    
-    page_1 = Container(
-        width=400,
-        height=850,
-        bgcolor=FG,
-        border_radius=35,
-        content=first_page_Contents
-    )
-    
-    page_2 = Row(
-        controls=[
-            Container(
-                width=400,
-                height=850,
-                bgcolor=FG,
-                border_radius=35,
-                padding=padding.only(
-                    top=50, 
-                    left=20,
-                    right=20, 
-                    bottom=5 
-                ),
-                content=Column(
-                    controls=[first_page_Contents] 
-                )
-            )
-        ]
-    )
-    
-    container = Container(
-        width=400, 
-        height=850, 
-        bgcolor=BG,
-        border_radius=35,
-        content=Stack(
-            controls=[
-                page_1,
-                page_2
-            ]
-        )
-    )
-    
-    page.add(container)
-    
-app(target=main)
+def main(page: ft.Page):
+    def route_change(e: ft.RouteChangeEvent):
+        page.views.clear()
+        
+        if e.route == "/main":
+            page.views.append(main_page(page))
+        elif e.route == "/page1":
+            page.views.append(page1(page))
+        elif e.route == "/chat":
+            page.views.append(chat_page(page))
+        
+        page.update()
+
+    page.on_route_change = route_change
+    page.go("/main")
+
+ft.app(main, view=ft.AppView.WEB_BROWSER)
