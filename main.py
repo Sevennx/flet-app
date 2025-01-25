@@ -6,26 +6,39 @@ def main(page: Page):
     FG = '#3450a1'
     PINK = '#eb0cff'
     
+    # Mensagem "Bem-vindo" centralizada
+    welcome_message = Text(
+        "Bem-vindo",
+        size=40,
+        weight=FontWeight.BOLD,
+        color=FWG,
+        text_align=TextAlign.CENTER
+    )
+    
+    # Primeira página com a mensagem "Bem-vindo"
     first_page_Contents = Container(
         content=Column(
+            alignment=MainAxisAlignment.CENTER,
+            horizontal_alignment=CrossAxisAlignment.CENTER,
             controls=[
                 Row(
+                    alignment=MainAxisAlignment.CENTER,
                     controls=[
-                        Container(  
-                            content=Icon(
-                                icons.MENU
-                            )
-                        )
+                        welcome_message
                     ]
                 )
             ]
         )
     )
     
-
-    page_1 = Container()
+    page_1 = Container(
+        width=400,
+        height=850,
+        bgcolor=FG,
+        border_radius=35,
+        content=first_page_Contents
+    )
     
-
     page_2 = Row(
         controls=[
             Container(
